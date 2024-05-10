@@ -1,0 +1,13 @@
+[package]
+name = "spin-messaging-sdk"
+version.workspace = true
+edition.workspace = true
+include = ["../../wit/messaging.wit"]
+
+[lib]
+name = "spin_messaging_sdk"
+
+[dependencies]
+spin-executor = "3.0.1"
+# spin-messaging-macro = { path = "macro" }
+wit-bindgen = { workspace = true }

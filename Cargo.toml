@@ -1,0 +1,32 @@
+[package]
+name = "spin-trigger-messaging"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.74"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.83"
+clap = { version = "3.1.15", features = ["derive", "env"] }
+futures = "0.3.30"
+lapin = "2.3.4"
+serde = "1.0.201"
+spin-app = { git = "https://github.com/fermyon/spin", tag = "v2.5.0" }
+spin-core = { git = "https://github.com/fermyon/spin", tag = "v2.5.0" }
+spin-telemetry = { git = "https://github.com/fermyon/spin", tag = "v2.5.0" }
+spin-trigger = { git = "https://github.com/fermyon/spin", tag = "v2.5.0" }
+tokio = { version = "1.37.0", features = ["full"] }
+tracing = { version = "0.1.40", features = ["log"] }
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+wasmtime = { version = "18.0.4", features = ["component-model"] }
+
+[workspace]
+members = ["sdk/rust"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+
+[workspace.dependencies]
+wit-bindgen = "0.16.0"
