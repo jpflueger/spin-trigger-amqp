@@ -1,0 +1,16 @@
+[package]
+name = "amqp-rust"
+description = "Demo app to send and receive AMQP messages."
+authors = ["Justin Pflueger <justin.pflueger@fermyon.com>"]
+version = "0.1.0"
+edition = "2021"
+include = ["../../wit"]
+
+[lib]
+crate-type = [ "cdylib" ]
+
+[dependencies]
+anyhow = "1"
+spin-messaging-sdk = { path = "../../sdk/rust" }
+
+[workspace]

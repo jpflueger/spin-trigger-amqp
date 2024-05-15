@@ -1,0 +1,26 @@
+spin_manifest_version = 2
+
+[application]
+name = "amqp-rust"
+version = "0.1.0"
+description = "Demo app to receive AMQP messages."
+authors = ["Justin Pflueger <justin.pflueger@fermyon.com>"]
+
+[application.trigger.messaging]
+address = "amqp://localhost:5672"
+username = "user"
+password = "password"
+keep_alive_interval = "30"
+
+[[trigger.messaging]]
+id = "trigger-msg-c01"
+component = "msg-c01"
+topic = "messages-in01"
+qos = "1"
+
+[component.msg-c01]
+source = "target/wasm32-wasi/release/amqp_rust.wasm"
+allowed_outbound_hosts = ["amqp://localhost:5672"]
+
+[component.msg-c01.build]
+command = "cargo build --target wasm32-wasi --release"

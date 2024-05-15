@@ -146,7 +146,7 @@ impl TriggerExecutor for MessagingTrigger {
                 .component_configs
                 .clone()
                 .into_iter()
-                .map(|(component_id, _mqtt_qos, _mqtt_topic)| {
+                .map(|(component_id, _qos, _topic)| {
                     let trigger = self.clone();
                     tokio::spawn(async move {
                         trigger

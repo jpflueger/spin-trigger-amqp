@@ -5214,10 +5214,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "spin-messaging-macro"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "spin-messaging-sdk"
 version = "0.1.0"
 dependencies = [
  "spin-executor",
+ "spin-messaging-macro",
  "wit-bindgen",
 ]
 

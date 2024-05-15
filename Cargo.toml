@@ -24,7 +24,7 @@ tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
 wasmtime = { version = "18.0.4", features = ["component-model"] }
 
 [workspace]
-members = ["sdk/rust"]
+members = ["sdk/rust","sdk/rust/macro"]
 
 [workspace.package]
 version = "0.1.0"

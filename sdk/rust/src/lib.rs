@@ -1,4 +1,4 @@
-// pub use spin_mqtt_macro::mqtt_component;
+pub use spin_messaging_macro::messaging_component;
 
 #[doc(hidden)]
 pub use spin_executor as executor;
@@ -17,4 +17,4 @@ pub mod wit {
 pub use wit_bindgen;
 
 #[doc(inline)]
-pub use wit::wasi::messaging::messaging_types::{Client, Error, Channel, GuestConfiguration, FormatSpec, Message};
+pub use wit::wasi::messaging::messaging_types::*;
