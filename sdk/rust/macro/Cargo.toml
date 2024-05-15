@@ -1,11 +1,11 @@
 [package]
-name = "spin-messaging-macro"
+name = "spin-amqp-macro"
 version = { workspace = true }
 edition = { workspace = true }
-include = ["../../wit"]
+include = ["../../../spin-amqp.wit"]
 
 [lib]
-name = "spin_messaging_macro"
+name = "spin_amqp_macro"
 proc-macro = true
 
 [dependencies]

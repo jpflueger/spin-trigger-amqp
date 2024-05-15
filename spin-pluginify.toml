@@ -1,5 +1,5 @@
-name = "trigger-messaging"
+name = "trigger-amqp"
 version = "0.1.0"
 spin_compatibility = ">=2.0"
 license = "MIT"
-package = "./target/release/spin-trigger-messaging"
+package = "./target/release/trigger-amqp"

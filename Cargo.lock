@@ -4966,6 +4966,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "spin-amqp-macro"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "spin-amqp-sdk"
+version = "0.1.0"
+dependencies = [
+ "spin-amqp-macro",
+ "spin-executor",
+ "wit-bindgen",
+]
+
+[[package]]
 name = "spin-app"
 version = "2.5.0"
 source = "git+https://github.com/fermyon/spin?tag=v2.5.0#83eb68d49d32f1ebf6890e892c4c952af4b3df04"
@@ -5214,25 +5233,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "spin-messaging-macro"
-version = "0.1.0"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 1.0.109",
- "wit-bindgen",
-]
-
-[[package]]
-name = "spin-messaging-sdk"
-version = "0.1.0"
-dependencies = [
- "spin-executor",
- "spin-messaging-macro",
- "wit-bindgen",
-]
-
-[[package]]
 name = "spin-outbound-networking"
 version = "2.5.0"
 source = "git+https://github.com/fermyon/spin?tag=v2.5.0#83eb68d49d32f1ebf6890e892c4c952af4b3df04"
@@ -5371,27 +5371,6 @@ dependencies = [
  "wasmtime",
  "wasmtime-wasi",
  "wasmtime-wasi-http",
-]
-
-[[package]]
-name = "spin-trigger-messaging"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "futures",
- "lapin",
- "serde",
- "spin-app",
- "spin-core",
- "spin-expressions",
- "spin-trigger",
- "tokio",
- "tokio-executor-trait",
- "tokio-reactor-trait",
- "tracing",
- "tracing-subscriber",
- "wasmtime",
 ]
 
 [[package]]
@@ -6145,6 +6124,27 @@ dependencies = [
  "tracing-core",
  "tracing-log",
  "tracing-serde",
+]
+
+[[package]]
+name = "trigger-amqp"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "futures",
+ "lapin",
+ "serde",
+ "spin-app",
+ "spin-core",
+ "spin-expressions",
+ "spin-trigger",
+ "tokio",
+ "tokio-executor-trait",
+ "tokio-reactor-trait",
+ "tracing",
+ "tracing-subscriber",
+ "wasmtime",
 ]
 
 [[package]]

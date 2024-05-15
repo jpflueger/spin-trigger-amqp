@@ -33,7 +33,7 @@ install_plugin:
 clean:
 	@echo "Cleaning up..."
 	cargo clean
-	cargo clean --manifest-path ./examples/messaging-app/Cargo.toml
-	rm -f trigger-messaging-*.tar.gz
-	rm -f trigger-messaging.json
-	spin plugin uninstall trigger-messaging
+	cargo clean --manifest-path ./examples/amqp-rust/Cargo.toml
+	rm -f trigger-amqp-*.tar.gz
+	rm -f trigger-amqp.json
+	spin plugin uninstall trigger-amqp

@@ -1,10 +1,9 @@
-#[allow(unused)]
 use clap::Parser;
 use spin_trigger::cli::TriggerExecutorCommand;
-use spin_trigger_messaging::MessagingTrigger;
+use trigger_amqp::AmqpTrigger;
 use std::io::IsTerminal;
 
-type Command = TriggerExecutorCommand<MessagingTrigger>;
+type Command = TriggerExecutorCommand<AmqpTrigger>;
 
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {

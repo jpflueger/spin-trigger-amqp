@@ -1,13 +1,13 @@
 [package]
-name = "spin-messaging-sdk"
+name = "spin-amqp-sdk"
 version.workspace = true
 edition.workspace = true
-include = ["../../wit"]
+include = ["../../spin-amqp.wit"]
 
 [lib]
-name = "spin_messaging_sdk"
+name = "spin_amqp_sdk"
 
 [dependencies]
 spin-executor = "3.0.1"
-spin-messaging-macro = { path = "macro" }
+spin-amqp-macro = { path = "macro" }
 wit-bindgen = { workspace = true }

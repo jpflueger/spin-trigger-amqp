@@ -7,7 +7,7 @@ name = "amqp-rust"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "spin-messaging-sdk",
+ "spin-amqp-sdk",
 ]
 
 [[package]]
@@ -283,18 +283,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "spin-executor"
-version = "3.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2df1a5e2cc70a628c9ea6914770c234cc4a292218091e6707ae8be68b4a5de76"
-dependencies = [
- "futures",
- "once_cell",
- "wit-bindgen",
-]
-
-[[package]]
-name = "spin-messaging-macro"
+name = "spin-amqp-macro"
 version = "0.1.0"
 dependencies = [
  "proc-macro2",
@@ -304,11 +293,22 @@ dependencies = [
 ]
 
 [[package]]
-name = "spin-messaging-sdk"
+name = "spin-amqp-sdk"
 version = "0.1.0"
 dependencies = [
+ "spin-amqp-macro",
  "spin-executor",
- "spin-messaging-macro",
+ "wit-bindgen",
+]
+
+[[package]]
+name = "spin-executor"
+version = "3.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2df1a5e2cc70a628c9ea6914770c234cc4a292218091e6707ae8be68b4a5de76"
+dependencies = [
+ "futures",
+ "once_cell",
  "wit-bindgen",
 ]
 

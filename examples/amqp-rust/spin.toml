@@ -6,17 +6,15 @@ version = "0.1.0"
 description = "Demo app to receive AMQP messages."
 authors = ["Justin Pflueger <justin.pflueger@fermyon.com>"]
 
-[application.trigger.messaging]
+[application.trigger.amqp]
 address = "amqp://localhost:5672"
 username = "user"
 password = "password"
-keep_alive_interval = "30"
 
-[[trigger.messaging]]
+[[trigger.amqp]]
 id = "trigger-msg-c01"
 component = "msg-c01"
 topic = "messages-in01"
-qos = "1"
 
 [component.msg-c01]
 source = "target/wasm32-wasi/release/amqp_rust.wasm"

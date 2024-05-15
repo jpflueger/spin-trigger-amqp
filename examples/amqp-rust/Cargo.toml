@@ -11,6 +11,6 @@ crate-type = [ "cdylib" ]
 
 [dependencies]
 anyhow = "1"
-spin-messaging-sdk = { path = "../../sdk/rust" }
+spin-amqp-sdk = { path = "../../sdk/rust" }
 
 [workspace]
