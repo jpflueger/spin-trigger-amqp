@@ -7,8 +7,8 @@
     {
       "os": "macos",
       "arch": "aarch64",
-      "url": "file:///Users/j12r/Development/fermyon/spin-trigger-messaging/trigger-messaging-0.1.0-macos-aarch64.tar.gz",
-      "sha256": "d695b078e5eb0974b63d82d237d3b5a36c29eb7e405a61f978edb7c62dec116a"
+      "url": "file:///Users/brianh/fibonacci1729/spin-trigger-messaging/trigger-messaging-0.1.0-macos-aarch64.tar.gz",
+      "sha256": "bef737f2d6f0ae538444d7cac9eb8d871361dcc234ca7698ef1118529baca0de"
     }
   ]
 }

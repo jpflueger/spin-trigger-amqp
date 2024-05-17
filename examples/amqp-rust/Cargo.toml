@@ -11,6 +11,7 @@ crate-type = [ "cdylib" ]
 
 [dependencies]
 anyhow = "1"
-spin-messaging-sdk = { path = "../../sdk/rust" }
+# spin-messaging-sdk = { path = "../../sdk/rust" }
+wit-bindgen = "0.20.0"
 
 [workspace]

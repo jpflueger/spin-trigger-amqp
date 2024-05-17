@@ -18,11 +18,16 @@ use serde::{Deserialize, Serialize};
 use spin_app::MetadataKey;
 use spin_core::{async_trait, InstancePre};
 use spin_trigger::{TriggerAppEngine, TriggerExecutor};
+use wasi::messaging::consumer::add_to_linker;
 use wasi::messaging::messaging_types::{FormatSpec, Message};
 use std::sync::Arc;
+use spin_core::Linker;
 
-pub(crate) type RuntimeData = ();
+// pub(crate) type RuntimeData = ();
 pub(crate) type _Store = spin_core::Store<RuntimeData>;
+
+#[derive(Default)]
+struct RuntimeData {}
 
 #[derive(Args)]
 pub struct CliArgs {
@@ -64,13 +69,76 @@ pub struct MessagingTriggerConfig {
 
 const TRIGGER_METADATA_KEY: MetadataKey<TriggerMetadata> = MetadataKey::new("trigger");
 
+use wasi::messaging::messaging_types::{Client, Error};
+
+#[async_trait]
+impl wasi::messaging::messaging_types::HostClient for RuntimeData {
+    async fn connect(
+        &mut self,
+        name: String,
+    ) -> wasmtime::Result<
+        Result<
+            wasmtime::component::Resource<Client>,
+            wasmtime::component::Resource<Error>,
+        >,
+    > {
+        todo!()
+    }
+
+    fn drop(
+        &mut self,
+        rep: wasmtime::component::Resource<Client>,
+    ) -> wasmtime::Result<()> {
+        todo!()
+    }
+}
+
+#[async_trait]
+impl wasi::messaging::messaging_types::HostError for RuntimeData {
+    async fn trace(&mut self) -> wasmtime::Result<String> {
+        todo!()
+    }
+
+    fn drop(
+        &mut self,
+        rep: wasmtime::component::Resource<Error>,
+    ) -> wasmtime::Result<()> {
+        todo!()
+    }   
+}
+
+#[async_trait]
+impl wasi::messaging::messaging_types::Host for RuntimeData {}
+
+struct MessagingTriggerHostComponent;
+
+impl spin_core::HostComponent for MessagingTriggerHostComponent {
+    type Data = RuntimeData;
+
+    fn add_to_linker<T: Send>(
+        linker: &mut Linker<T>,
+        get: impl Fn(&mut spin_core::Data<T>) -> &mut Self::Data + Send + Sync + Copy + 'static
+    ) -> anyhow::Result<()> {
+        wasi::messaging::messaging_types::add_to_linker(linker, get)
+    }
+
+    fn build_data(&self) -> Self::Data {
+        todo!()
+    }
+}
+
 #[async_trait]
 impl TriggerExecutor for MessagingTrigger {
     const TRIGGER_TYPE: &'static str = "messaging";
-    type RuntimeData = RuntimeData;
+    type RuntimeData = ();
     type TriggerConfig = MessagingTriggerConfig;
     type RunConfig = CliArgs;
-    type InstancePre = InstancePre<RuntimeData>;
+    type InstancePre = InstancePre<()>;
+
+    fn configure_engine(builder: &mut spin_core::EngineBuilder<Self::RuntimeData>) -> anyhow::Result<()> {
+        builder.add_host_component(MessagingTriggerHostComponent)?;
+        Ok(())
+    }
 
     async fn new(engine: spin_trigger::TriggerAppEngine<Self>) -> anyhow::Result<Self> {
         let address = resolve_template_variable(
@@ -163,6 +231,8 @@ impl TriggerExecutor for MessagingTrigger {
             result?
         }
     }
+
+
 }
 
 impl MessagingTrigger {
