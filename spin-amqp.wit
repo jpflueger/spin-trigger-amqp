@@ -11,7 +11,7 @@ interface spin-amqp-types {
   /// Format specification for messages 
   ///  - more info: https://github.com/clemensv/spec/blob/registry-extensions/registry/spec.md#message-formats
   ///  - message metadata can further decorate w/ things like format version, and so on.
-  enum format-spec {
+  variant format-spec {
       cloudevents,
       http,
       amqp,

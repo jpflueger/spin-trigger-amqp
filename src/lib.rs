@@ -110,13 +110,12 @@ impl TriggerExecutor for AmqpTrigger {
     async fn run(self, config: Self::RunConfig) -> anyhow::Result<()> {
         if config.test {
             for component in &self.component_configs {
-                let message = Message{
-                   data: b"test message".to_vec(),
-                   format: amqp_types::FormatSpec::Amqp,
-                   metadata: None,
+                let message = Message {
+                    data: b"test message".to_vec(),
+                    format: amqp_types::FormatSpec::Amqp,
+                    metadata: None,
                 };
-                self.handle_message(&component.0, &[message])
-                    .await?;
+                self.handle_message(&component.0, &[message]).await?;
             }
 
             Ok(())
@@ -172,22 +171,16 @@ impl AmqpTrigger {
             .map_err(|err| anyhow!("failed to execute guest: {err}"))
     }
 
-    async fn run_listener(
-        &self,
-        component_id: &str,
-        topic: &str,
-    ) -> anyhow::Result<()> {
+    async fn run_listener(&self, component_id: &str, topic: &str) -> anyhow::Result<()> {
         let uri = self.address.clone();
         let conn_opts = ConnectionProperties::default()
             .with_executor(tokio_executor_trait::Tokio::current())
             .with_reactor(tokio_reactor_trait::Tokio)
             .with_connection_name("spin-trigger".into());
-        
+
         //TODO: do we re-use the same channel or create a new channel per requested topic?
-        let connection = Connection::connect(&uri, conn_opts)
-            .await?;
-        let channel = connection.create_channel()
-            .await?;
+        let connection = Connection::connect(&uri, conn_opts).await?;
+        let channel = connection.create_channel().await?;
 
         //TODO: do we need non-defaults for any of these? how do we specify those?
         let consumer_tag = "spin_trigger_0";
@@ -250,31 +243,32 @@ impl AmqpTrigger {
                 }
 
                 // create the message
-                let message = amqp_types::Message{
+                let message = amqp_types::Message {
                     data: delivery.data.to_owned(),
                     format: amqp_types::FormatSpec::Amqp,
-                    metadata: if metadata.is_empty() {None} else {Some(metadata)},
+                    metadata: if metadata.is_empty() {
+                        None
+                    } else {
+                        Some(metadata)
+                    },
                 };
 
                 // send to guest for processing
-                let handle_result = self.handle_message(component_id, &[message])
-                    .await;
+                let handle_result = self.handle_message(component_id, &[message]).await;
 
                 // ack or nack depending on guest processing
                 match handle_result {
-                    Ok(()) => delivery
-                        .ack(BasicAckOptions::default())
-                        .await?,
+                    Ok(()) => delivery.ack(BasicAckOptions::default()).await?,
                     Err(error) => {
                         //TODO: allow the guest to set retries or dead letter queue?
                         dbg!("guest failed to process message: {}", error);
                         delivery
-                            .nack(BasicNackOptions{
+                            .nack(BasicNackOptions {
                                 requeue: !delivery.redelivered,
                                 ..Default::default()
                             })
                             .await?
-                    },
+                    }
                 }
             }
         }

@@ -1,7 +1,7 @@
 use clap::Parser;
 use spin_trigger::cli::TriggerExecutorCommand;
-use trigger_amqp::AmqpTrigger;
 use std::io::IsTerminal;
+use trigger_amqp::AmqpTrigger;
 
 type Command = TriggerExecutorCommand<AmqpTrigger>;
 
