@@ -17,4 +17,4 @@ pub mod wit {
 pub use wit_bindgen;
 
 #[doc(inline)]
-pub use wit::spin::amqp_trigger::spin_amqp_types::{Error, FormatSpec, Message};
+pub use wit::spin::amqp_trigger::spin_amqp_types::{Error, Message};

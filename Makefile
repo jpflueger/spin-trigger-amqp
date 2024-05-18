@@ -1,7 +1,7 @@
 # Makefile to build and run Messaging plugin for Spin framework.
 
 .PHONY: all
-all: build_plugin install_plugin
+all: build-plugin install-plugin
 
 .PHONY: lint
 lint:
@@ -18,13 +18,13 @@ lint-rust-examples:
 .PHONY: lint-all
 lint-all: lint lint-rust-examples
 
-.PHONY: build_plugin
-build_plugin:
+.PHONY: build-plugin
+build-plugin:
 	@echo "Building Messaging Plugin..."
 	cargo build --release
 
-.PHONY: install_plugin
-install_plugin:
+.PHONY: install-plugin
+install-plugin:
 	@echo "Installing Messaging Plugin in Spin..."
 	spin plugins update && spin plugins upgrade pluginify -y
 	spin pluginify --install
@@ -37,3 +37,7 @@ clean:
 	rm -f trigger-amqp-*.tar.gz
 	rm -f trigger-amqp.json
 	spin plugin uninstall trigger-amqp
+
+.PHONY: start-rabbitmq
+start-rabbitmq:
+	podman run -it --hostname spin-rabbitmq --name spin-rabbitmq -p 5672:5672,15672:15672 -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password docker.io/library/rabbitmq:3.8.22-management

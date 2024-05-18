@@ -2,12 +2,15 @@ use anyhow::anyhow;
 use clap::Args;
 use futures::StreamExt;
 use lapin::options::{BasicAckOptions, BasicConsumeOptions, BasicNackOptions};
+use lapin::tcp::OwnedTLSConfig;
 use lapin::types::FieldTable;
-use lapin::{Connection, ConnectionProperties};
+use lapin::uri::AMQPUri;
+use lapin::{Connect, ConnectionProperties};
 use serde::{Deserialize, Serialize};
 use spin_app::MetadataKey;
 use spin_core::{async_trait, InstancePre};
 use spin_trigger::{TriggerAppEngine, TriggerExecutor};
+use std::str::FromStr;
 use std::sync::Arc;
 
 // https://docs.rs/wasmtime/latest/wasmtime/component/macro.bindgen.html
@@ -34,8 +37,8 @@ pub struct CliArgs {
 pub struct AmqpTrigger {
     engine: Arc<TriggerAppEngine<Self>>,
     address: String,
-    _username: String,
-    _password: String,
+    username: String,
+    password: String,
     component_configs: Vec<(String, String)>,
 }
 
@@ -47,7 +50,6 @@ struct TriggerMetadata {
     address: String,
     username: String,
     password: String,
-    keep_alive_interval: String,
 }
 
 // Per-component settings (raw serialization format)
@@ -101,8 +103,8 @@ impl TriggerExecutor for AmqpTrigger {
         Ok(Self {
             engine: Arc::new(engine),
             address,
-            _username: username,
-            _password: password,
+            username: username,
+            password: password,
             component_configs,
         })
     }
@@ -112,7 +114,6 @@ impl TriggerExecutor for AmqpTrigger {
             for component in &self.component_configs {
                 let message = Message {
                     data: b"test message".to_vec(),
-                    format: amqp_types::FormatSpec::Amqp,
                     metadata: None,
                 };
                 self.handle_message(&component.0, &[message]).await?;
@@ -172,14 +173,17 @@ impl AmqpTrigger {
     }
 
     async fn run_listener(&self, component_id: &str, topic: &str) -> anyhow::Result<()> {
-        let uri = self.address.clone();
+        let mut uri = AMQPUri::from_str(self.address.as_str()).map_err(|e| anyhow!(e))?;
+        uri.authority.userinfo.username = self.username.clone();
+        uri.authority.userinfo.password = self.password.clone();
+
         let conn_opts = ConnectionProperties::default()
             .with_executor(tokio_executor_trait::Tokio::current())
             .with_reactor(tokio_reactor_trait::Tokio)
             .with_connection_name("spin-trigger".into());
 
         //TODO: do we re-use the same channel or create a new channel per requested topic?
-        let connection = Connection::connect(&uri, conn_opts).await?;
+        let connection = uri.connect(conn_opts, OwnedTLSConfig::default()).await?;
         let channel = connection.create_channel().await?;
 
         //TODO: do we need non-defaults for any of these? how do we specify those?
@@ -245,7 +249,6 @@ impl AmqpTrigger {
                 // create the message
                 let message = amqp_types::Message {
                     data: delivery.data.to_owned(),
-                    format: amqp_types::FormatSpec::Amqp,
                     metadata: if metadata.is_empty() {
                         None
                     } else {
