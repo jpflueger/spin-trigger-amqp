@@ -37,7 +37,3 @@ clean:
 	rm -f trigger-amqp-*.tar.gz
 	rm -f trigger-amqp.json
 	spin plugin uninstall trigger-amqp
-
-.PHONY: start-rabbitmq
-start-rabbitmq:
-	podman run -it --hostname spin-rabbitmq --name spin-rabbitmq -p 5672:5672,15672:15672 -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password docker.io/library/rabbitmq:3.8.22-management

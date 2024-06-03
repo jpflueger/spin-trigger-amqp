@@ -17,9 +17,9 @@ pub fn amqp_component(_attr: TokenStream, item: TokenStream) -> TokenStream {
                 #preamble
             }
             impl self::preamble::Guest for preamble::Amqp {
-                fn handler(messages: ::spin_amqp_sdk::wit_bindgen::rt::vec::Vec<::spin_amqp_sdk::Message>) -> ::std::result::Result<(), ::spin_amqp_sdk::Error> {
+                fn handler(message: ::spin_amqp_sdk::Message) -> ::std::result::Result<(), ::spin_amqp_sdk::Error> {
                     ::spin_amqp_sdk::executor::run(async move {
-                        match super::#func_name(messages)#await_postfix {
+                        match super::#func_name(message)#await_postfix {
                             ::std::result::Result::Ok(()) => ::std::result::Result::Ok(()),
                             ::std::result::Result::Err(e) => {
                                 eprintln!("{}", e);

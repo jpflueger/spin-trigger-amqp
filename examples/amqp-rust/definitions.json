@@ -1,0 +1,32 @@
+{
+  "users": [
+    {
+      "name": "user",
+      "password_hash": "OLbM9rOySyKb47Yn1d/RFsbrj91lJP0IyuiCnMvi5ZD8hvPd",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator",
+      "limits": {}
+    }
+  ],
+  "vhosts": [{ "name": "/" }],
+  "permissions": [
+    {
+      "user": "user",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "queues": [
+    {
+      "name": "messages-in01",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-queue-type": "classic" }
+    }
+  ],
+  "exchanges": [],
+  "bindings": []
+}
