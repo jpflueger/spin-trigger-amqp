@@ -178,9 +178,7 @@ impl AmqpTrigger {
         uri.authority.userinfo.username = self.username.clone();
         uri.authority.userinfo.password = self.password.clone();
 
-        let conn_opts = ConnectionProperties::default()
-            .with_executor(tokio_executor_trait::Tokio::current())
-            .with_reactor(tokio_reactor_trait::Tokio);
+        let conn_opts = ConnectionProperties::default();
 
         //TODO: do we re-use the same channel or create a new channel per requested topic?
         let connection = uri.connect(conn_opts, OwnedTLSConfig::default()).await?;
