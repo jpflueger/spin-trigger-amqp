@@ -10,7 +10,7 @@ rust-version = "1.74"
 anyhow = "1.0.83"
 clap = { version = "3.1.15", features = ["derive", "env"] }
 futures = "0.3.30"
-lapin = "2.3.4"
+lapin = { version = "2.3.4", features = ["native-tls"] }
 serde = "1.0.201"
 spin-app = { git = "https://github.com/fermyon/spin", tag = "v2.5.0" }
 spin-core = { git = "https://github.com/fermyon/spin", tag = "v2.5.0" }
