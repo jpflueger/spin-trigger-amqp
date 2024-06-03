@@ -1,2 +1,4 @@
 target/
 .spin/
+trigger-amqp-*.tar.gz
+trigger-amqp.json
