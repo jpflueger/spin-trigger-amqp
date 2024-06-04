@@ -12,10 +12,10 @@ clap = { version = "3.1.15", features = ["derive", "env"] }
 futures = "0.3.30"
 lapin = { version = "2.3.4", default-features = false, features = ["vendored-openssl"] }
 serde = "1.0.201"
-spin-app = { git = "https://github.com/fermyon/spin", tag = "v2.5.0" }
-spin-core = { git = "https://github.com/fermyon/spin", tag = "v2.5.0" }
-spin-expressions = { git = "https://github.com/fermyon/spin", tag = "v2.5.0" }
-spin-trigger = { git = "https://github.com/fermyon/spin", tag = "v2.5.0" }
+spin-app = { git = "https://github.com/fermyon/spin", tag = "v2.5.1" }
+spin-core = { git = "https://github.com/fermyon/spin", tag = "v2.5.1" }
+spin-expressions = { git = "https://github.com/fermyon/spin", tag = "v2.5.1" }
+spin-trigger = { git = "https://github.com/fermyon/spin", tag = "v2.5.1" }
 tokio = { version = "1.37.0", features = ["full"] }
 tracing = { version = "0.1.40", features = ["log"] }
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
