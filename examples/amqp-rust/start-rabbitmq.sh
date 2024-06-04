@@ -5,31 +5,26 @@ USERNAME=user
 PASSWORD=password
 VERSION=3.8.22
 
-if command -v podman &> /dev/null; then
-  TOOL=podman
-else
-  TOOL=docker
-fi
-
-if [ "$($TOOL ps -a -q -f name=$HOSTNAME -f status=running)" ]; then
+if [ "$(docker ps -a -q -f name=$HOSTNAME -f status=running)" ]; then
   echo "container running, removing before starting"
-  $TOOL stop $HOSTNAME
+  docker stop $HOSTNAME
 fi
 
-if [ "$($TOOL ps -a -q -f name=$HOSTNAME -f status=exited)" ]; then
+if [ "$(docker ps -a -q -f name=$HOSTNAME -f status=exited)" ]; then
   echo "container stopped, removing before starting"
-  $TOOL rm $HOSTNAME
+  docker rm $HOSTNAME
 fi
 
-$TOOL run -d \
-  --hostname $HOSTNAME \
-  --name $HOSTNAME \
-  -p 5672:5672,15672:15672 \
-  -e RABBITMQ_DEFAULT_USER=$USERNAME \
-  -e RABBITMQ_DEFAULT_PASS=$PASSWORD \
-  docker.io/library/rabbitmq:$VERSION-management
+docker run -d \
+  --hostname "$HOSTNAME" \
+  --name "$HOSTNAME" \
+  -p "5672:5672" \
+  -p "15672:15672" \
+  -e "RABBITMQ_DEFAULT_USER=$USERNAME" \
+  -e "RABBITMQ_DEFAULT_PASS=$PASSWORD" \
+  "rabbitmq:$VERSION-management"
 
-#TODO(justin) be less lazy about this
+# TODO(justin) be less lazy about this
 echo "waiting for container to accept imports"
 sleep 10
 

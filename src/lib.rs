@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 use spin_app::MetadataKey;
 use spin_core::{async_trait, InstancePre};
 use spin_trigger::{TriggerAppEngine, TriggerExecutor};
+use tracing::{info, warn};
 use std::fmt::Debug;
 use std::str::FromStr;
 use std::sync::Arc;
@@ -194,6 +195,8 @@ impl AmqpTrigger {
             .await?;
 
         //TODO: would be nice to add some debug logging / tracing with the consumer's id so it is identifiable in server logs
+        
+        info!("AMQP listener started");
 
         while let Some(delivery) = consumer.next().await {
             // received message
@@ -266,7 +269,7 @@ impl AmqpTrigger {
                     Ok(()) => delivery.ack(BasicAckOptions::default()).await?,
                     Err(error) => {
                         //TODO: allow the guest to set retries or dead letter queue?
-                        dbg!("guest failed to process message: {}", error);
+                        warn!("guest failed to process message: {}", error);
                         delivery
                             .nack(BasicNackOptions {
                                 requeue: !delivery.redelivered,
